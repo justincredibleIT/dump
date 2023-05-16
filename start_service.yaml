@@ -1,0 +1,29 @@
+---
+- name: Start Service
+  hosts: all
+  tasks:
+
+    - name: State the service
+      ansible.windows.win_service:
+        name: "{{ service }}"
+      register: servicename
+
+    - name: echo service state
+      debug: 
+        msg: 
+          - "Server {{ hostname }} has service {{ servicename.display_name }} as state of {{ servicename.state }}"      
+
+    - name: restart service
+      ansible.windows.win_service:
+        name: "{{ service }}"
+        state: started
+
+    - name: State the service
+      ansible.windows.win_service:
+        name: "{{ service }}"
+      register: servicename
+
+    - name: echo service state
+      debug: 
+        msg: 
+          - "Server {{ hostname }} has service {{servicename.display_name }} as state of {{servicename.state}}"

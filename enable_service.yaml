@@ -1,0 +1,34 @@
+---
+- name: Start and enable "{{ service }}" service
+  hosts: all
+  tasks:
+
+    - name: State the service
+      ansible.windows.win_service:
+        name: "{{ service }}"
+      register: servicename
+
+    - name: echo service state
+      debug: 
+        msg: 
+          - "Server {{ inventory_hostname }} has service {{ servicename.display_name }} as state of {{ servicename.state }}"      
+
+    - name: enable service
+      ansible.windows.win_service:
+        name: "{{ service }}"
+        start_mode: auto
+
+    - name: start service
+      ansible.windows.win_service:
+        name: "{{ service }}"
+        state: started
+
+    - name: State the service
+      ansible.windows.win_service:
+        name: "{{ service }}"
+      register: servicename
+
+    - name: echo service state
+      debug: 
+        msg: 
+          - "Server {{ inventory_hostname }} has service {{servicename.display_name }} as state of {{servicename.state}}"

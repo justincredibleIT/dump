@@ -1,0 +1,24 @@
+---
+- name: Install Chrome
+  hosts: all
+  tasks:
+
+  - name: Create temp directory
+    win_file:
+      path: C:\temp
+      state: directory
+     
+  - name: Copy a single file
+    win_copy:
+      src: ./chrome.msi
+      dest: C:\temp\chrome.msi
+
+  - name: Install Chrome
+    win_package:
+      path: C:\temp\chrome.msi
+      state: present
+
+  - name: Delete temp file
+    win_file:
+      path: C:\temp\chrome.msi
+      state: absent

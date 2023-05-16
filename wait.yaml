@@ -1,0 +1,7 @@
+---
+- name: Pause for 10 minutes
+  hosts: all
+  tasks:
+  - name: pause
+    ansible.builtin.pause:
+      minutes: 10

@@ -1,0 +1,12 @@
+---
+- name: Run a Powershell Script
+  hosts: all
+  tasks:
+    - name: Run a Powershell Script
+      ansible.windows.win_powershell:
+        script: |
+          {{ powershell_script }}
+      register: ps_output
+      
+    - debug:
+        msg: "{{ ps_output }}"

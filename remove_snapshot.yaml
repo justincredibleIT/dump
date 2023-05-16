@@ -1,0 +1,14 @@
+---
+- name: Remove a snapshot
+  hosts: all
+  tasks:
+
+  - name: Remove a snapshot
+    vmware_guest_snapshot:
+      hostname: "{{hostname}}"
+      datacenter: "{{datacenter_name}}"
+      folder: "{{folder_name}}"     
+      name: "{{ inventory_hostname }}"
+      state: remove_all
+      validate_certs: no
+    delegate_to: localhost 

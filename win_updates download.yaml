@@ -1,0 +1,23 @@
+---
+- name: Download Windows Updates
+  hosts: all
+  tasks:
+  - name: Handle any error
+    block:
+      - name: Download Windows Updates
+        win_updates:
+          state: downloaded
+    rescue:
+      - name: enable service
+        ansible.windows.win_service:
+          name: "wuauserv"
+          start_mode: auto
+
+      - name: start service
+        ansible.windows.win_service:
+          name: "wuauserv"
+          state: started
+
+      - name: Download Windows Updates
+        ansible.windows.win_updates:
+          state: downloaded

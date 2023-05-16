@@ -1,0 +1,33 @@
+---
+- name: Install all updates and reboot as many times as needed
+  hosts: all
+  tasks:
+  - name: Handle any error
+    block:
+      - name: Install KB2973906
+        win_updates:
+          accept_list:
+          - KB2973906
+          - KB2919355
+          - KB5023790        
+          reboot: yes
+          reboot_timeout: 3600
+    rescue:
+      - name: enable service
+        ansible.windows.win_service:
+          name: "wuauserv"
+          start_mode: auto
+
+      - name: start service
+        ansible.windows.win_service:
+          name: "wuauserv"
+          start_mode: started
+
+      - name: Install KB2973906
+        win_updates:
+          accept_list:
+          - KB2973906
+          - KB2919355
+          - KB5023790
+          reboot: yes
+          reboot_timeout: 3600

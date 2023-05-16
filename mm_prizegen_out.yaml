@@ -1,0 +1,13 @@
+---
+- name: MicroServices Manager Prizegen Out
+  hosts: localhost
+  tasks:
+
+  - name: copy
+    shell: cp -R /home/.microservices.manager /home/runner/
+    
+  - name: mm prizegen out command - {{site_name}} {{host_number}}
+    shell: mm --env {{site_name}} --action prizegen-out --hosts {{host_number}} --dry-run false
+    register: result
+
+  - debug: var=result.stdout_lines

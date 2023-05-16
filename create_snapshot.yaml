@@ -1,0 +1,21 @@
+---
+- name: Create a snapshot
+  hosts: all
+  tasks:
+  
+  - name: Ansible fact - ansible_date_time
+    debug:
+      var: ansible_date_time
+    run_once: true
+
+  - name: Create a snapshot - "{{ inventory_hostname }}"
+
+    vmware_guest_snapshot:
+      hostname: "{{hostname}}"
+      datacenter: "{{datacenter_name}}"
+      folder: "{{folder_name}}"     
+      name: "{{ inventory_hostname }}"
+      state: present
+      snapshot_name: ansible snapshot {{ansible_date_time.date}} {{ansible_date_time.time}}
+      validate_certs: no
+    delegate_to: localhost 

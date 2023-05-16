@@ -1,0 +1,34 @@
+---
+- name: Stop and disable "{{ service }}" service
+  hosts: all
+  tasks:
+
+    - name: State the service
+      ansible.windows.win_service:
+        name: "{{ service }}"
+      register: servicename
+
+    - name: echo service state
+      debug: 
+        msg: 
+          - "Server {{ inventory_hostname }} has service {{ servicename.display_name }} as state of {{ servicename.state }}"      
+
+    - name: stop prizegen
+      ansible.windows.win_service:
+        name: "{{ service }}"
+        state: stopped
+
+    - name: disable service
+      ansible.windows.win_service:
+        name: "{{ service }}"
+        start_mode: disabled
+
+    - name: State the service
+      ansible.windows.win_service:
+        name: "{{ service }}"
+      register: servicename
+
+    - name: echo service state
+      debug: 
+        msg: 
+          - "Server {{ inventory_hostname }} has service {{servicename.display_name }} as state of {{servicename.state}}"

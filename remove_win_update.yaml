@@ -1,0 +1,9 @@
+---
+- name: List win updates then remove
+  hosts: all
+  tasks:
+    - name: List Windows updates
+      community.windows.win_hotfix:
+        hotfix_identifier: "{{ kb_number }}"
+        state: absent
+      register: hotfix_uninstall

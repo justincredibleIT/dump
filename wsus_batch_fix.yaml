@@ -1,0 +1,17 @@
+---
+- name: wsus batch fix
+  hosts: all
+  tasks:
+
+  - name: Create directory structure
+    ansible.windows.win_file:
+      path: C:\temp
+      state: directory
+
+  - name: copy batch file
+    win_copy:
+      src: ./ResetSUSClientID.bat
+      dest: C:\temp\ResetSUSClientID.bat
+
+  - name: Run batch file
+    win_command: C:\temp\ResetSUSClientID.bat
